@@ -674,14 +674,6 @@ Renderer.drawSceneShadow = function (gl) {
     gl.uniform1i(this.textureShader.uProjSamplerLocation, 5);
     this.drawScene(gl,this.textureShader);
 
-    var MM = glMatrix.mat4.create();
-    glMatrix.mat4.fromScaling(MM, [0.3, 0.3, 0.3]);
-    var t = glMatrix.mat4.fromTranslation(glMatrix.mat4.create(), [0.35, 0.85, 0.0]);
-    glMatrix.mat4.mul(MM, t, MM);
-    glMatrix.mat4.mul(MM, Renderer.car.frame, MM);
-    gl.uniformMatrix4fv(this.textureShader.uModelMatrixLocation, false, MM);
-    //this.drawObject(gl, this.steer, [0.8, 0.8, 0.8]);
-
     gl.activeTexture(gl.TEXTURE8);
     gl.bindTexture(gl.TEXTURE_2D, null);
     gl.activeTexture(gl.TEXTURE9);
@@ -894,6 +886,7 @@ on_keydown = function(e){
 }
 
 on_mouseWheel = function (e){
+    e.preventDefault();
     if(Renderer.currentCamera == 4) {
         var direction = glMatrix.vec4.create()
         glMatrix.vec4.transformMat4(direction, [0.0, 0.0, -1.0, 0.0], glMatrix.mat4.invert(glMatrix.mat4.create(), Renderer.cameras[4].matrix()));
